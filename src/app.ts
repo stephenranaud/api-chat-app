@@ -1,10 +1,24 @@
 import * as express from "express";
-import { Express } from "express";
+
+import messagesRoutes from "./routes/messagesRoutes";
 
 const app = express();
 
-app.use((req, res) => {
-  res.json({ message: "Hello" });
+app.use(express.json());
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization",
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+  );
+  next();
 });
+
+app.use("/api/messages", messagesRoutes);
 
 export default app;
